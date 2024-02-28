@@ -15,15 +15,20 @@ $database = DB::getAllDatabases();
 </head>
 <body>
 	<div class="content">
-		<?php if(isset($_SESSION['error'])) { 
+		<?php
+		if(isset($_SESSION['error'])) {
 			$message = $_SESSION['error'];
 			unset($_SESSION['error']);
+		}
+		if(isset($database->errorInfo[2])) {
+			$message = $database->errorInfo[2];
 		?>
-		<div class="alert-error" id="alert"><?=$message?></div>
+			<div class="alert-error" id="alert"><?=$message?></div>
 		<?php } ?>
+
 		<aside class="sidebar">
-			<div style="position: relative;">
-			<?php if(isset($_SESSION['success'])){ 
+			<div style="position:relative;">
+			<?php if(isset($_SESSION['success'])){
 				$message = $_SESSION['success'];
 				unset($_SESSION['success']);
 			?>
@@ -37,20 +42,21 @@ $database = DB::getAllDatabases();
 						</div>
 						<div class="create-database-form">
 							<form action="modules/create-database.php" method="POST">
-							<input type="text" name="database">
-							<button value="submit" class="create-button">Create</button>
-						</form>
+								<input type="text" name="database">
+								<button value="submit" class="create-button">Create</button>
+							</form>
 						</div>
 					</div>
 					<ul>
-					<?php while ($db = $database->fetch()) : ?>
+					<?php  while ($db = $database->fetch()) : ?>
 						<li class="flex">
-							<div class="flex-child"><a href="modules/handlequery.php?db=<?=$db[0]?>"><?=$db[0]?></a>
+							<div class="flex-child">
+								<a href="modules/handlequery.php?db=<?=$db[0]?>" class="link"><?= ucfirst($db[0])?></a>
 							</div>
 							<div class="flex-child">
 								<form action="/modules/delete-db.php" class="delete_db" method="POST">
 									<input type="hidden" name="dbname" value="<?=$db[0]?>">
-									<button>
+									<button class="drop-button">
 										X
 									</button>
 								</form>
