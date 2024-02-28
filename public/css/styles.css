@@ -1,0 +1,213 @@
+* {
+	box-sizing: border-box;
+}
+::-webkit-scrollbar {
+	width: thin;
+	color: #888 #eee;
+}
+body {
+	margin: 0;
+	padding: 0;
+}
+
+
+.title {
+	text-align: center;
+}
+
+.content {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+}
+
+.sidebar {
+	background-color: black;
+	width: 20%;
+	height: 100vh;
+	color: white;
+	padding-left: 10px;
+	overflow-y: scroll;
+}
+
+.sidebar ul {
+	list-style: none;
+	padding: 0;
+}
+.sidebar ul li a {
+	display: block;
+	text-decoration: none;
+	padding: 10px 5px;
+	transform: all 10s;
+}
+
+.sidebar ul li a:link {
+	color: white;
+}
+.sidebar ul li a:hover {
+	color: white;
+	translate: 10px 2px;
+}
+.sidebar ul li a:visited {
+	color: white;
+}
+.sidebar ul li a:active {
+	color: white;
+}
+.main {
+	background-color: lightgray;
+	padding: 1vw;
+	width: 80%;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	overflow: scroll;
+}
+
+.database-header {
+	display: flex;
+	flex-direction: column;
+}
+.database-title {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.create-database-form {
+	display: none;
+	text-align: center;
+}
+
+.create-button {
+	background-color: green;
+	padding: 0 5px;
+	color: white;
+	cursor: pointer;
+}
+
+#open {
+
+}
+#close {
+	display: none;
+	color: red;
+}
+#open:hover, #close:hover {
+	transform: scale(1.2);
+	cursor: pointer;
+}
+
+#alert {
+	position: absolute;
+	left: 20%;
+	right: 20%;
+	top: 10vh;
+	width: 50%;
+	text-align: center;
+	color: white;
+	font-size: 14px;
+}
+.overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	opacity: 0.8;
+	z-index: 500;
+}
+.alert-error {
+	background-color: red;
+	z-index: 400;
+	width: 50%;
+	height: 50%;
+	margin: 20vh auto;
+	padding: 5px;
+	vertical-align: middle;
+	border-radius: 10px;
+	backdrop-filter: blur(50px);
+	color: white;
+}
+.alert-success {
+	background-color: green;
+}
+
+.query-segment {
+	position: relative;
+	height: 90vh;
+}
+
+.query-segment .result {
+	max-width: 100%;
+	height: 65%;
+	border: 2px solid black;
+	border-radius: 1vh;
+	margin-bottom: 1vh;
+	background-color: white;
+	overflow: scroll;
+}
+
+.query-segment .query {
+	max-width: 100%;
+	height: 35%;
+}
+
+#query-input {
+	display: block;
+	width: 100%;
+	resize: none;
+}
+
+.query-group {
+	text-align: right;
+}
+
+#query-btn {
+	background-color: black;
+	color: white;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 3px;
+	margin-top: 2px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+#query-btn:hover {
+	transform: scale(1.03);
+}
+
+.query-db {
+	position: absolute;
+	z-index: 400;
+	top: -2.5vh;
+	left: 4vh;
+	background-color: black;
+	color: white;
+	padding: 5px 10px;
+	border-radius: 3px;
+}
+
+.query-segment .table-container {
+	max-width: 80%;
+}
+
+.query-segment .table {
+	border: 0.5px solid black;
+	border-collapse: collapse;
+	margin-top: 4vh;
+}
+.table td, .table th {
+	border: 0.5px solid black;
+	padding: 4px;
+}
+
+#close-error {
+	color: black; 
+	margin-right: 10px; 
+	cursor: pointer;
+	padding: 0 2px;
+	border-radius: 2px;
+	background-color: lightgray;
+}
