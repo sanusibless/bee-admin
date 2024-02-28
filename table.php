@@ -2,7 +2,7 @@
 session_start();
 
 require 'modules/autoloader.php';
-$database = DB::getAllDatabases();
+$database = DB::getRecordsFromTable($_SESSION['db'], $_GET['table']);
 
 ?>
 <!DOCTYPE html>
@@ -15,22 +15,10 @@ $database = DB::getAllDatabases();
 </head>
 <body>
 	<div class="content">
-		<?php
-		if(isset($_SESSION['error'])) {
-			$message = $_SESSION['error'];
-			unset($_SESSION['error']);
-		}
-		if(isset($database->errorInfo[2])) {
-			$message = $database->errorInfo[2];
-		?>
-			<div class="alert-error" id="alert"><?=$message?></div>
-		<?php } ?>
-
 		<aside class="sidebar">
 			<div style="position:relative;">
-			<?php if(isset($_SESSION['success'])){
-				$message = $_SESSION['success'];
-				unset($_SESSION['success']);
+			<?php if(is_string($database)) {
+				$message = $database;
 			?>
 			<div class="alert-success" id="alert"><?=$message?></div>
 			<?php } ?>
@@ -48,23 +36,6 @@ $database = DB::getAllDatabases();
 						</div>
 					</div>
 					<ul>
-					<?php
-						while ($db = $database->fetch()) : ?>
-						<li class="flex">
-							<div class="flex-child">
-								<a href="modules/handlequery.php?db=<?=$db[0]?>" class="link"><?= ucfirst($db[0])?></a>
-							</div>
-							<div class="flex-child">
-								<form action="/modules/delete-db.php" class="delete_db" method="POST">
-									<input type="hidden" name="dbname" value="<?=$db[0]?>">
-									<button class="drop-button">
-										X
-									</button>
-								</form>
-							</div>
-
-						</li>
-					<?php endwhile; ?>
 					</ul>
 				</div>
 		</aside>
@@ -73,35 +44,15 @@ $database = DB::getAllDatabases();
 			<div class="query-segment">
 				<div class="result">
 					<span class="query-db">Database: <span><?=$_SESSION['db'] ?? ""?></span></span>
-						<?php 
-						if(isset($_SESSION['result'])) {
-						if($_SESSION['result']['status'] == 'success'): ?>
-						<div class="table-container">
-							<table class="table">
-								<thead>
-									<tr>
-									<?php foreach($_SESSION['result']['columns'] as $column): ?>
-										<th><?=$column ?? ""?></th>
-									<?php endforeach; ?>
-									</tr>
-								</thead>
-								 <tbody>
-									<?php if(isset($_SESSION['result']['data'])): ?> 
-									<?php foreach($_SESSION['result']['data'] as $result): ?>
-										<tr>
-											<?php foreach($_SESSION['result']['columns'] as $column): ?>
-											<td>
-												<a href="table.php?db=<?=$_SESSION['db']?>&table=<?=$result[$column]?>"><?= $result[$column]?></a>
-											</td>
-										<?php endforeach; ?>
-										</tr>
-									<?php endforeach; ?>
-								<?php endif ?>
-								</tbody>
-							</table>
-						</div>
-					<?php endif; }
-					?>
+                    <table>
+                        <?php
+                        while($result = $database->fetchAll(PDO::FETCH_COLUMN)) { ?>
+                        <th>
+                            <?= $result ?>
+                        </th>
+                        <?php } ?>
+
+                    </table>
 				</div>
 				<div class="query">
 					<form action="modules/handlequery.php" method="POST" id="query-form">
@@ -111,7 +62,8 @@ $database = DB::getAllDatabases();
 				</div>
 			</div>
 		</main>
-		<?php if(isset($_SESSION['result'])) {
+		<?php
+         if(isset($_SESSION['result'])) {
 		 if($_SESSION['result']['status'] == 'error') {
 					$message = $_SESSION['result']['error'];
 				?>

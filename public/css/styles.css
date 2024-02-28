@@ -230,3 +230,13 @@ body {
 table {
 	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+table a{
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	text-decoration: none;
+	color: black;
+}
+table a:hover {
+	text-decoration: underline;
+	color: rgb(4, 26, 56);
+}

@@ -42,6 +42,15 @@ class DB {
 		return $db;
 	}
 
+	private static function  connection($db)
+	{
+		$db = new PDO("mysql:host=localhost;dbname=$db;charset=utf8",'root', '');
+
+		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		return $db;
+	}
+
 	public static function getAllDatabases() {
 		try {
 			$db = self::setUpConnection();
@@ -73,6 +82,16 @@ class DB {
 
 	public static function changeDB($dbname) {
 		//$this->
+	}
+
+	public static function getRecordsFromTable($db, $table)
+	{
+		try {
+			$db = self::connection($db);
+			return $db->query("SELECT * FROM " . $table);
+		} catch (Exception $e) {
+			return "Something Happened!";
+		}
 	}
 }
 
